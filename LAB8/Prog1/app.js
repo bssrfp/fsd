@@ -1,0 +1,12 @@
+const math = require('./mathModule');
+const greet = require('./greetModule');
+const User = require('./userModule');
+console.log("---- Math Module ----");
+console.log("Addition:", math.add(100,50));
+console.log("Subtraction:", math.subtract(100,50));
+console.log("Multiplication:", math.multiply(100,50));
+console.log("\n---- Greet Module ----");
+console.log(greet("Surya"));
+console.log("\n---- User Module ----");
+const user1 = new User("Surya", 19);
+console.log(user1.getDetails());

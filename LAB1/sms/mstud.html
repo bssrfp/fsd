@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Students</title>
+</head>
+<body>
+    <h1>Manage Students</h1>
+    <form id="studentForm">
+        <label>
+            <input type="radio" name="action" value="add" checked> Add Student
+        </label>
+        <label>
+            <input type="radio" name="action" value="remove"> Remove Student
+        </label><br><br>
+        <label for="studentId">Student ID:</label>
+        <input type="text" id="studentId" required><br><br>
+        <label for="studentName">Student Name:</label>
+        <input type="text" id="studentName" required><br><br>
+        <button type="submit">Submit</button>
+    </form>
+    <p id="message"></p>
+    <script>
+        document.getElementById('studentForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const action = document.querySelector('input[name="action"]:checked').value;
+            const id = document.getElementById('studentId').value.trim();
+            const name = document.getElementById('studentName').value.trim();
+            const message = document.getElementById('message');
+            
+            if (!id || !name) {
+                message.textContent = 'Please fill in all fields.';
+                return;
+            }
+            
+            let students = JSON.parse(localStorage.getItem('students')) || [];
+            
+            if (action === 'add') {
+                if (students.some(student => student.id === id)) {
+                    message.textContent = 'Student with this ID already exists.';
+                    return;
+                }
+                students.push({ id, name });
+                message.textContent = 'Student added successfully.';
+            } else if (action === 'remove') {
+                const index = students.findIndex(student => student.id === id);
+                if (index === -1) {
+                    message.textContent = 'Student with this ID not found.';
+                    return;
+                }
+                students.splice(index, 1);
+                message.textContent = 'Student removed successfully.';
+            }
+            
+            localStorage.setItem('students', JSON.stringify(students));
+            document.getElementById('studentForm').reset();
+        });
+    </script>
+</body>
+</html>

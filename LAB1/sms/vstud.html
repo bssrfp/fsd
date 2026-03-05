@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Students</title>
+</head>
+<body>
+    <h1>View Students</h1>
+    <table id="studentTable" border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+            </tr>
+        </thead>
+        <tbody id="studentTableBody">
+        </tbody>
+    </table>
+    <script>
+        function displayStudents() {
+            const students = JSON.parse(localStorage.getItem('students')) || [];
+            const studentTableBody = document.getElementById('studentTableBody');
+            studentTableBody.innerHTML = '';
+            students.forEach(student => {
+                const row = document.createElement('tr');
+                const idCell = document.createElement('td');
+                idCell.textContent = student.id;
+                const nameCell = document.createElement('td');
+                nameCell.textContent = student.name;
+                row.appendChild(idCell);
+                row.appendChild(nameCell);
+                studentTableBody.appendChild(row);
+            });
+        }
+        displayStudents();
+        // Refresh display every 5 seconds in case of updates from other tabs
+        setInterval(displayStudents, 5000);
+    </script>
+</body>
+</html>
