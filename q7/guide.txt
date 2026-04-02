@@ -1,0 +1,209 @@
+✅ Step 1: Create Project
+mkdir movie-api
+cd movie-api
+npm init -y
+✅ Step 2: Install Dependencies
+npm install express mongoose
+
+
+(server.js)
+
+// =====================================
+// Express + MongoDB Movie CRUD API
+// =====================================
+
+const express = require("express");
+const mongoose = require("mongoose");
+
+const app = express();
+app.use(express.json());
+
+// ===============================
+// Connect to MongoDB
+// ===============================
+mongoose.connect("mongodb://127.0.0.1:27017/moviedb")
+    .then(() => console.log("MongoDB Connected"))
+    .catch(err => console.log(err));
+
+// ===============================
+// Schema & Model
+// ===============================
+const movieSchema = new mongoose.Schema({
+    title: String,
+    director: String,
+    releaseYear: Number,
+    genre: String
+});
+
+const Movie = mongoose.model("Movie", movieSchema);
+
+// ===============================
+// POST - Add Movie
+// ===============================
+app.post("/movies", async (req, res) => {
+    try {
+        const movie = new Movie(req.body);
+        await movie.save();
+        res.status(201).json(movie);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// ===============================
+// GET - All Movies
+// ===============================
+app.get("/movies", async (req, res) => {
+    const movies = await Movie.find();
+    res.json(movies);
+});
+
+// ===============================
+// GET - Movie by ID
+// ===============================
+app.get("/movies/:id", async (req, res) => {
+    try {
+        const movie = await Movie.findById(req.params.id);
+        if (!movie) return res.status(404).json({ message: "Not found" });
+        res.json(movie);
+    } catch {
+        res.status(400).json({ message: "Invalid ID" });
+    }
+});
+
+// ===============================
+// PUT - Update Movie
+// ===============================
+app.put("/movies/:id", async (req, res) => {
+    try {
+        const movie = await Movie.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true }
+        );
+        res.json(movie);
+    } catch {
+        res.status(400).json({ message: "Update failed" });
+    }
+});
+
+// ===============================
+// DELETE - Remove Movie
+// ===============================
+app.delete("/movies/:id", async (req, res) => {
+    try {
+        await Movie.findByIdAndDelete(req.params.id);
+        res.json({ message: "Movie deleted" });
+    } catch {
+        res.status(400).json({ message: "Delete failed" });
+    }
+});
+
+// ===============================
+app.listen(3000, () => {
+    console.log("Server running on port 3000");
+});
+
+
+👉 Start MongoDB server:
+
+Open terminal and run:
+
+mongod
+✅ If successful, you’ll see:
+waiting for connections on port 27017
+
+👉 This means MongoDB is running ✔
+if not working
+✅ Solution (VERY EASY – Do this now)
+🔹 Step 1: Create Required Folder
+
+👉 Open File Explorer
+👉 Go to C Drive (C:)
+
+Create folders like this:
+
+C:\data\db
+How:
+Open C:
+Right click → New Folder → name: data
+Open data → create another folder → name: db
+
+🔹 Step 2: Run MongoDB Again
+
+Go back to terminal and run:
+
+mongod
+
+
+🚀 IF STILL NOT WORKING (Use this 100% working method)
+🔹 Alternative Fix (Recommended in exams)
+Step 1: Create folder anywhere (easy)
+
+Example:
+
+E:\mongodb\data
+Step 2: Run MongoDB with path
+mongod --dbpath "E:\mongodb\data"
+
+👉 This bypasses the default error completely ✅
+
+🔹 Step 1: Open NEW terminal
+
+In Visual Studio Code:
+
+👉 Click:
+
++ (New Terminal)
+🔹 Step 2: Run your Node app
+node server.js
+🔹 Step 3: Test in Postman
+
+Now your full setup is working:
+
+MongoDB → running ✅
+Express server → running ✅
+
+✅ Expected Output:
+MongoDB Connected
+Server running on port 3000
+
+👉 If you see this → everything is correct 💯
+
+🧪 STEP 5: Test using Postman
+🔹 1. Add Movie (POST)
+URL:
+http://localhost:3000/movies
+Method:
+
+POST
+
+Body → JSON:
+{
+  "title": "RRR",
+  "director": "Rajamouli",
+  "releaseYear": 2022,
+  "genre": "Action"
+}
+✅ Click Send
+
+👉 You’ll get response with _id
+👉 This _id is important
+
+🔹 2. Get All Movies (GET)
+http://localhost:3000/movies
+
+👉 Shows all movies stored in DB
+
+🔹 3. Get Movie by ID
+http://localhost:3000/movies/<paste_id_here>
+🔹 4. Update Movie (PUT)
+http://localhost:3000/movies/<id>
+
+Body:
+
+{
+  "genre": "Drama"
+}
+🔹 5. Delete Movie
+http://localhost:3000/movies/<id>

@@ -1,0 +1,124 @@
+🔥 STEP 1: Create Project Folder
+🔹 Open Terminal (VS Code or CMD)
+mkdir api-project
+cd api-project
+🔥 STEP 2: Initialize Node Project
+npm init -y
+
+👉 This creates:
+
+package.json
+🔥 STEP 3: Install Express
+npm install express
+
+👉 This installs Express (backend framework)
+
+🔥 STEP 4: Create server.js File
+
+👉 In VS Code:
+
+Right click → New File
+Name:
+server.js
+🔥 STEP 5: Paste Code
+const express = require("express");
+const app = express();
+
+app.use(express.json());
+
+let tasks = [];
+let id = 1;
+
+// CREATE
+app.post("/tasks", (req, res) => {
+    const task = { id: id++, ...req.body };
+    tasks.push(task);
+    res.json(task);
+});
+
+// READ ALL
+app.get("/tasks", (req, res) => {
+    res.json(tasks);
+});
+
+// READ ONE
+app.get("/tasks/:id", (req, res) => {
+    const task = tasks.find(t => t.id == req.params.id);
+    res.json(task);
+});
+
+// UPDATE
+app.put("/tasks/:id", (req, res) => {
+    const task = tasks.find(t => t.id == req.params.id);
+    Object.assign(task, req.body);
+    res.json(task);
+});
+
+// DELETE
+app.delete("/tasks/:id", (req, res) => {
+    tasks = tasks.filter(t => t.id != req.params.id);
+    res.json({ message: "Deleted" });
+});
+
+app.listen(3000, () => {
+    console.log("Server running on port 3000");
+});
+🔥 STEP 6: Run Server
+
+Open terminal and run:
+
+node server.js
+✅ Output:
+Server running on port 3000
+
+👉 Server is now running ✔
+👉 Do NOT close this terminal
+
+🔥 STEP 7: Open Postman
+
+Open:
+👉 Postman
+
+🧪 STEP 8: Test API (VERY IMPORTANT)
+🔹 1. CREATE (POST)
+In Postman:
+Method: POST
+URL:
+http://localhost:3000/tasks
+Go to:
+
+👉 Body → raw → JSON
+
+Paste:
+{
+  "title": "Learn Node",
+  "status": "To Do"
+}
+
+👉 Click Send
+
+✅ Output:
+{
+  "id": 1,
+  "title": "Learn Node",
+  "status": "To Do"
+}
+🔹 2. GET ALL
+Method: GET
+URL:
+http://localhost:3000/tasks
+
+👉 Click Send
+
+🔹 3. GET BY ID
+http://localhost:3000/tasks/1
+🔹 4. UPDATE (PUT)
+Method: PUT
+URL:
+http://localhost:3000/tasks/1
+Body:
+{
+  "status": "Done"
+}
+🔹 5. DELETE
+http://localhost:3000/tasks/1

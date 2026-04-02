@@ -1,0 +1,97 @@
+✅ Using Visual Studio Code
+Steps:
+Create file:
+server.js
+Paste code
+
+// =====================================
+// Node.js Modules Demo (HTTP + OS)
+// =====================================
+
+// Import required modules
+const http = require("http");
+const os = require("os");
+
+// Create server
+const server = http.createServer((req, res) => {
+
+    // (a) Routing using conditions
+    if (req.url === "/") {
+        res.writeHead(200, { "Content-Type": "text/plain" });
+        res.end("Welcome to the homepage");
+
+    } else if (req.url === "/about") {
+        res.writeHead(200, { "Content-Type": "text/plain" });
+        res.end("This is the about page");
+
+    // (b) JSON response
+    } else if (req.url === "/api/data") {
+        const data = {
+            name: "John",
+            age: 20,
+            city: "Hyderabad"
+        };
+
+        res.writeHead(200, { "Content-Type": "application/json" });
+        res.end(JSON.stringify(data));
+
+    } else {
+        res.writeHead(404, { "Content-Type": "text/plain" });
+        res.end("Page not found");
+    }
+});
+
+// Start server
+server.listen(3000, () => {
+    console.log("Server running at http://localhost:3000");
+});
+
+
+// =====================================
+// (c) OS Module Information
+// =====================================
+
+console.log("\n--- System Information ---");
+
+console.log("Hostname:", os.hostname());
+console.log("Platform:", os.platform());
+console.log("Uptime (seconds):", os.uptime());
+
+// Convert bytes to MB
+const totalMemory = (os.totalmem() / (1024 * 1024)).toFixed(2);
+const freeMemory = (os.freemem() / (1024 * 1024)).toFixed(2);
+
+console.log("Total Memory (MB):", totalMemory);
+console.log("Free Memory (MB):", freeMemory);
+
+
+Open terminal:
+Ctrl + `
+Run:
+node server.js
+🌐 Test in Browser
+
+Open browser and test:
+
+🔹 Home Page
+http://localhost:3000/
+
+👉 Output:
+
+Welcome to the homepage
+🔹 About Page
+http://localhost:3000/about
+
+👉 Output:
+
+This is the about page
+🔹 API JSON
+http://localhost:3000/api/data
+
+👉 Output:
+
+{
+  "name": "John",
+  "age": 20,
+  "city": "Hyderabad"
+}

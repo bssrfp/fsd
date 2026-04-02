@@ -1,0 +1,42 @@
+🔹 Step 1: Clone Remote Repository
+git clone https://github.com/your-username/mywebapp.git
+cd mywebapp
+
+ex: https://github.com/Jahangeer1207/mywebappq1.git
+👉 This creates a local copy of the remote repo
+
+🔹 Step 2: Modify the Implementation
+
+Example:
+
+Open index.html
+Add a new line:
+<p>Updated version of website</p>
+🔹 Step 3: Add, Commit & Push Changes
+git add .
+git commit -m "Updated index page"
+git push origin main
+🌿 Branching & Work Distribution
+🔹 Step 4: Create a New Branch
+git branch feature1
+git checkout feature1
+
+👉 OR shortcut:
+
+git checkout -b feature1
+🔹 Step 5: Work on Branch
+
+Example:
+
+Modify about.html
+git add .
+git commit -m "Updated about page in feature1"
+🔹 Step 6: Push Branch to GitHub
+git push origin feature1
+🔀 Merging Branches
+🔹 Step 7: Switch to Main Branch
+git checkout main
+🔹 Step 8: Merge Branch
+git merge feature1
+🔹 Step 9: Push Merged Code
+git push origin main

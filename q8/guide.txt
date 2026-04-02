@@ -1,0 +1,62 @@
+🔹 Step 1: Start MongoDB Server
+
+Open Command Prompt and run:
+
+mongod --dbpath "E:\mongodb\data"
+
+👉 This will:
+
+Start MongoDB server
+Terminal will keep running (normal ✅)
+🔹 Step 2: Open NEW Command Prompt
+
+👉 Important: Don’t close the first one
+
+Open another Command Prompt window and run:
+
+mongosh
+
+✅ Step 2: Create Database
+use CSE
+
+👉 Database CSE will be created automatically
+
+✅ Step 3: Create Collection & Insert Data
+db.products.insertMany([
+  { name: "Samsung TV", category: "electronics", price: 600, stock: 15, brand: "Samsung", discount: 10 },
+  { name: "Sofa", category: "furniture", price: 1200, stock: 5, brand: "Ikea" },
+  { name: "Shirt", category: "clothing", price: 200, stock: 50, brand: "Zara" },
+  { name: "Apple", category: "food", price: 50, stock: 100, brand: "Local" },
+  { name: "Laptop", category: "electronics", price: 1500, stock: 8, brand: "Dell", discount: 15 },
+  { name: "Table", category: "furniture", price: 300, stock: 12, brand: "Ikea" },
+  { name: "Shoes", category: "clothing", price: 400, stock: 20, brand: "Nike" },
+  { name: "Smartphone", category: "electronics", price: 800, stock: 25, brand: "OnePlus" },
+  { name: "Sandwich", category: "food", price: 80, stock: 60, brand: "Cafe" },
+  { name: "Speaker", category: "electronics", price: 700, stock: 9, brand: "JBL", discount: 5 }
+])
+🔍 Queries (Very Important)
+🔹 a) Products priced above 500
+db.products.find({ price: { $gt: 500 } })
+🔹 b) Stock less than 10
+db.products.find({ stock: { $lt: 10 } })
+🔹 c) Price between 100 and 500
+db.products.find({ price: { $gte: 100, $lte: 500 } })
+🔹 d) Not in "electronics"
+db.products.find({ category: { $ne: "electronics" } })
+🔹 e) Electronics OR Furniture
+db.products.find({ category: { $in: ["electronics", "furniture"] } })
+🔹 f) Electronics AND price > 1000
+db.products.find({
+  category: "electronics",
+  price: { $gt: 1000 }
+})
+🔹 g) Neither "food" nor "clothing"
+db.products.find({
+  category: { $nin: ["food", "clothing"] }
+})
+🔹 h) Names starting with "S"
+db.products.find({ name: { $regex: "^S" } })
+🔹 i) Skip first 5 and show next 10
+db.products.find().skip(5).limit(10)
+🔹 j) Products with discount field
+db.products.find({ discount: { $exists: true } })

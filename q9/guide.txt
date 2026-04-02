@@ -1,0 +1,108 @@
+📁 Project Structure
+weather-app/
+│
+├── views/
+│   ├── home.ejs
+│   └── weather.ejs
+│
+├── app.js
+├── package.json
+💻 Step 1: Install Dependencies
+npm init -y
+npm install express ejs axios
+
+👉 We use:
+
+Express.js → backend
+EJS → frontend
+axios → API calls
+💻 Step 2: app.js
+const express = require("express");
+const axios = require("axios");
+
+const app = express();
+
+app.set("view engine", "ejs");
+app.use(express.urlencoded({ extended: true }));
+
+// Home page
+app.get("/", (req, res) => {
+    res.render("home");
+});
+
+// Handle form submission
+app.post("/weather", async (req, res) => {
+    const city = req.body.city;
+
+    try {
+        const apiKey = "YOUR_API_KEY"; // replace this
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
+
+        const response = await axios.get(url);
+        const data = response.data;
+
+        const weatherData = {
+            city: data.name,
+            temp: data.main.temp,
+            humidity: data.main.humidity,
+            condition: data.weather[0].description
+        };
+
+        res.render("weather", { weather: weatherData });
+
+    } catch (error) {
+        res.send("Error fetching weather data");
+    }
+});
+
+app.listen(3000, () => {
+    console.log("Server running at http://localhost:3000");
+});
+📄 Step 3: views/home.ejs
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather App</title>
+</head>
+<body>
+    <h1>Weather App</h1>
+
+    <form action="/weather" method="POST">
+        <input type="text" name="city" placeholder="Enter city name" required>
+        <button type="submit">Get Weather</button>
+    </form>
+</body>
+</html>
+📄 Step 4: views/weather.ejs
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Weather Result</title>
+</head>
+<body>
+    <h1>Weather in <%= weather.city %></h1>
+
+    <p>Temperature: <%= weather.temp %> °C</p>
+    <p>Humidity: <%= weather.humidity %>%</p>
+    <p>Condition: <%= weather.condition %></p>
+
+    <a href="/">Back</a>
+</body>
+</html>
+🔑 Step 5: Get API Key
+
+Use:
+👉 OpenWeatherMap API
+
+Sign up
+Get API key
+Replace in code:
+const apiKey = "YOUR_API_KEY";
+
+ex:const apiKey = "87efaed1a43cd10885fd8714f69abf1c";
+▶️ Step 6: Run Application
+node app.js
+
+Open browser:
+
+http://localhost:3000

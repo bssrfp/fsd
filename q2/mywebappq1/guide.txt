@@ -1,0 +1,161 @@
+💻 Practical Execution (Step-by-Step Commands)
+🔹 Step 1: Create Project Folder
+mkdir mywebapp
+cd mywebapp
+🔹 Step 2: Create 5 Web Pages
+
+Create files:
+
+touch index.html about.html contact.html services.html login.html
+
+📄 1. index.html (Home Page)
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+</head>
+<body>
+    <h1>Welcome to My Website</h1>
+
+    <nav>
+        <a href="index.html">Home</a> |
+        <a href="about.html">About</a> |
+        <a href="services.html">Services</a> |
+        <a href="contact.html">Contact</a> |
+        <a href="login.html">Login</a>
+    </nav>
+
+    <p>This is the home page of my simple web application.</p>
+</body>
+</html>
+
+📄 2. about.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>About</title>
+</head>
+<body>
+    <h1>About Us</h1>
+
+    <nav>
+        <a href="index.html">Home</a> |
+        <a href="about.html">About</a> |
+        <a href="services.html">Services</a> |
+        <a href="contact.html">Contact</a> |
+        <a href="login.html">Login</a>
+    </nav>
+
+    <p>This website is created for FSD lab exam demonstration.</p>
+</body>
+</html>
+
+📄 3. services.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Services</title>
+</head>
+<body>
+    <h1>Our Services</h1>
+
+    <nav>
+        <a href="index.html">Home</a> |
+        <a href="about.html">About</a> |
+        <a href="services.html">Services</a> |
+        <a href="contact.html">Contact</a> |
+        <a href="login.html">Login</a>
+    </nav>
+
+    <ul>
+        <li>Web Development</li>
+        <li>App Development</li>
+        <li>AI Solutions</li>
+    </ul>
+</body>
+</html>
+
+📄 4. contact.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Contact</title>
+</head>
+<body>
+    <h1>Contact Us</h1>
+
+    <nav>
+        <a href="index.html">Home</a> |
+        <a href="about.html">About</a> |
+        <a href="services.html">Services</a> |
+        <a href="contact.html">Contact</a> |
+        <a href="login.html">Login</a>
+    </nav>
+
+    <p>Email: example@gmail.com</p>
+    <p>Phone: 1234567890</p>
+</body>
+</html>
+
+📄 5. login.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login</title>
+</head>
+<body>
+    <h1>Login Page</h1>
+
+    <nav>
+        <a href="index.html">Home</a> |
+        <a href="about.html">About</a> |
+        <a href="services.html">Services</a> |
+        <a href="contact.html">Contact</a> |
+        <a href="login.html">Login</a>
+    </nav>
+
+    <form>
+        <label>Username:</label><br>
+        <input type="text"><br><br>
+
+
+🔹 Step 3: Initialize Git Repository
+git init
+🔹 Step 4: Add Files to Staging Area
+git add .
+🔹 Step 5: Commit Files
+git commit -m "Initial commit with 5-page web app"
+🔹 Step 6: Create Remote Repository on GitHub
+Go to 👉 GitHub
+Click New Repository
+Name: mywebapp
+Click Create Repository
+🔹 Step 7: Connect Local Repo to GitHub
+git remote add origin https://github.com/your-username/mywebapp.git
+🔹 Step 8: Push Code to GitHub
+git branch -M main
+git push -u origin main
+🔄 Git Operations (Very Important for Viva)
+🔹 1. Push
+
+Uploads local commits to GitHub
+
+git push origin main
+
+👉 Use when you want to upload changes
+
+🔹 2. Pull
+
+Fetch + Merge from remote to local
+
+git pull origin main
+
+👉 Updates your local repo
+
+🔹 3. Fetch
+
+Only downloads changes (no merge)
+
+git fetch origin
+
+👉 Safe way to check updates

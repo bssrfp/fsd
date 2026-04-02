@@ -1,0 +1,128 @@
+⚙️ How to Execute (VERY IMPORTANT)
+✅ Step 1: Create Project Folder
+mkdir student-api
+cd student-api
+✅ Step 2: Initialize Node.js
+npm init -y
+✅ Step 3: Install Express
+npm install express
+✅ Step 4: Create File
+server.js
+
+👉 Paste the above code
+const express = require("express");
+const app = express();
+
+app.use(express.json());
+
+// In-memory database
+let students = [];
+let idCounter = 1;
+
+// ===============================
+// POST - Add Student
+// ===============================
+app.post("/students", (req, res) => {
+    const { name, age, className, grade } = req.body;
+
+    const student = {
+        id: idCounter++,
+        name,
+        age,
+        className,
+        grade
+    };
+
+    students.push(student);
+    res.status(201).json(student);
+});
+
+// ===============================
+// GET - All Students
+// ===============================
+app.get("/students", (req, res) => {
+    res.json(students);
+});
+
+// ===============================
+// GET - Student by ID
+// ===============================
+app.get("/students/:id", (req, res) => {
+    const student = students.find(s => s.id == req.params.id);
+
+    if (!student) {
+        return res.status(404).json({ message: "Student not found" });
+    }
+
+    res.json(student);
+});
+
+// ===============================
+// PUT - Update Student
+// ===============================
+app.put("/students/:id", (req, res) => {
+    const student = students.find(s => s.id == req.params.id);
+
+    if (!student) {
+        return res.status(404).json({ message: "Student not found" });
+    }
+
+    const { name, age, className, grade } = req.body;
+
+    if (name) student.name = name;
+    if (age) student.age = age;
+    if (className) student.className = className;
+    if (grade) student.grade = grade;
+
+    res.json(student);
+});
+
+// ===============================
+// DELETE - Remove Student
+// ===============================
+app.delete("/students/:id", (req, res) => {
+    students = students.filter(s => s.id != req.params.id);
+    res.json({ message: "Student deleted successfully" });
+});
+
+// ===============================
+app.listen(3000, () => {
+    console.log("Server running on port 3000");
+});
+
+✅ Step 5: Run Server
+node server.js
+
+👉 Output:
+
+Server running on port 3000
+🧪 Testing using Postman
+
+Use Postman
+
+🔹 1. POST (Add Student)
+Method: POST
+URL: http://localhost:3000/students
+Body → JSON:
+{
+  "name": "John",
+  "age": 20,
+  "className": "B.Tech",
+  "grade": "A"
+}
+🔹 2. GET All Students
+Method: GET
+URL:
+http://localhost:3000/students
+🔹 3. GET Student by ID
+http://localhost:3000/students/1
+🔹 4. PUT (Update Student)
+Method: PUT
+URL:
+http://localhost:3000/students/1
+Body:
+{
+  "name": "Updated Name"
+}
+🔹 5. DELETE Student
+http://localhost:3000/students/1

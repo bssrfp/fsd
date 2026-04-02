@@ -1,0 +1,177 @@
+STEP 1: Create Firebase Project
+🔹 What is Firebase?
+It is a cloud backend
+No need to install database locally
+Works online
+🔹 Steps:
+Go to Firebase Console
+Click Create Project
+Give name → task-api
+Click Continue → Finish
+
+🔹 Step 1: Look at LEFT MENU
+
+You already opened:
+👉 Databases and storage
+
+Now you see dropdown like:
+
+PostgreSQL
+Firestore      ✅ (THIS ONE)
+Realtime Database ❌ (you selected this)
+🔹 Step 2: Click THIS 👇
+
+👉 Click:
+
+Firestore
+🔹 Step 3: Create Firestore
+
+You will now see:
+
+👉 Click:
+
+Create Database
+🔹 Step 4:
+
+Select:
+
+Start in test mode ✅
+
+Click Next → Enable
+
+🎯 After That
+
+You will see:
+
+Start Collection
+
+👉 That means Firestore is ready 💯
+
+🔥 STEP 2: Get Service Account Key
+
+👉 This is VERY IMPORTANT (authentication)
+
+🔹 Steps:
+Go to Project Settings ⚙️
+Open Service Accounts tab
+
+Click:
+
+Generate new private key
+Download file
+🔹 Rename file:
+serviceAccountKey.json
+
+👉 Place it inside your project folder
+
+🧠 Viva Line:
+
+“Service account key is used to securely connect Node.js server with Firebase.”
+
+🔥 STEP 3: Setup Node Project
+🔹 Create folder
+mkdir firebase-api
+cd firebase-api
+🔹 Initialize project
+npm init -y
+
+👉 Creates package.json
+
+🔹 Install packages
+npm install express firebase-admin
+🔹 What these do:
+Express.js → create API
+firebase-admin → connect to Firebase
+🔥 STEP 4: Write server.js
+
+Now create file:
+
+server.js
+
+const express = require("express");
+const admin = require("firebase-admin");
+
+const app = express();
+app.use(express.json());
+
+// Firebase config
+const serviceAccount = require("./serviceAccountKey.json");
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount)
+});
+
+const db = admin.firestore();
+
+// ===============================
+// CREATE
+// ===============================
+app.post("/tasks", async (req, res) => {
+  const data = req.body;
+  const docRef = await db.collection("tasks").add(data);
+  res.json({ id: docRef.id, ...data });
+});
+
+// ===============================
+// READ ALL
+// ===============================
+app.get("/tasks", async (req, res) => {
+  const snapshot = await db.collection("tasks").get();
+  let tasks = [];
+  snapshot.forEach(doc => {
+    tasks.push({ id: doc.id, ...doc.data() });
+  });
+  res.json(tasks);
+});
+
+// ===============================
+// READ ONE
+// ===============================
+app.get("/tasks/:id", async (req, res) => {
+  const doc = await db.collection("tasks").doc(req.params.id).get();
+  res.json({ id: doc.id, ...doc.data() });
+});
+
+// ===============================
+// UPDATE
+// ===============================
+app.put("/tasks/:id", async (req, res) => {
+  await db.collection("tasks").doc(req.params.id).update(req.body);
+  res.json({ message: "Updated successfully" });
+});
+
+// ===============================
+// DELETE
+// ===============================
+app.delete("/tasks/:id", async (req, res) => {
+  await db.collection("tasks").doc(req.params.id).delete();
+  res.json({ message: "Deleted successfully" });
+});
+
+// ===============================
+app.listen(3000, () => {
+  console.log("Server running on port 3000");
+});
+
+
+▶️ Step 5: Run Server
+node server.js
+🧪 Test using Postman
+
+Use Postman
+
+🔹 POST /tasks
+{
+  "title": "Learn Firebase",
+  "status": "To Do"
+}
+🔹 GET /tasks
+http://localhost:3000/tasks
+🔹 GET /tasks/:id
+http://localhost:3000/tasks/<id>
+🔹 PUT /tasks/:id
+{
+  "status": "Done"
+}
+🔹 DELETE /tasks/:id
+http://localhost:3000/tasks/<id>
